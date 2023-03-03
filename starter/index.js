@@ -3,69 +3,87 @@ const path = require('path');
 const inquirer = require("inquirer");
 const generateMarkdown = require("./utils/generateMarkdown");
 
-// array of questions for user
 const questions = [
-      {
-        type: 'input',
-        name: 'title',
-        message: 'What is the project title?',
-      }, 
-      {
-        type: 'input',
-        name: 'description',
-        message: 'Please provide a project description',
-      },
-      {
-        type: 'checkbox',
-        message: 'What technologies were employed in project?',
-        name: 'technologies',
-        choices: ['HTML', 'CSS', 'JavaScript', 'MySQL', 'jQuery', 'Bootstrap', 'Node.js', 'NPM', 'React', 'PHP', 'C', 'Other']
-      },
-      {
-        type: 'input',
-        name: 'installation',
-        message: 'Please provide informstion on how to install the application',
-      },
-      {
-        type: 'input',
-        name: 'usage',
-        message: 'Please provide information on how the application can be used',
-      },
-      {
-        type: 'list',
-        message: 'Please select a license',
-        name: 'contact',
-        choices: ["Apache License v2.0", "Boost Software Licence 1.0", "BSD 3-Clause License", "BSD 2-Clause License", "Eclipse Public License 1.0", "GNU GPL General Public License v3.0","GNU GPL General Public License v2.0", "IBM Public License Version 1.0", "ISC License", "MIT License", "Mozilla Public License 2.0", "The Unlicence"],
-      },
-      {
-        type: "input",
-        message: "What are your contributions guidelines for this project?",
-        name: "contributing",
-      },
-      {
-        type: "input",
-        message: "Please provide instructions on how to test this application",   
-        name: "tests",
-      },    
-     { type: "input",
-       message: "What is your email address?",
-       name: "email",
-      },
-      {
-        name: 'github',
-        type: 'input',
-        message: "What is your github?"
-    }
-    ];
-
-// function to write README file
-function writeToFile(fileName, data) {
-}
-
-// function to initialize program
-function init() {
-
-}
-
-// function call to initialize program
-init();
+    {
+      type: "input",
+      message: "What is the title of your Application?",
+      name: "title",
+    },
+    {
+      type: "input",
+      message: "Please provide a short description of the project",   
+      name: "description",
+    },
+    {
+      type: "checkbox",
+      message: "What technologies did you use to build the project?",   
+      name: "technologies",
+      choices: ["HTML", "CSS", "JavaScript", "Java", "jQuery", "Bootstrap", "Node.js", "NPM", "React", "PHP", "C", "Other"],
+    },
+    {
+      type: "input",
+      message: "Please provide information on how to install the the application",
+      name: "installation",
+    },
+    {
+      type: "input",
+      message: "Please provide instructions on how to use the application",
+      name: "usage",
+    },
+    {
+      type: "checkbox",
+      message: "Please select a license",
+      name: "license",
+      choices: ["Apache License v2.0", "Boost Software Licence 1.0", "BSD 3-Clause License", "BSD 2-Clause License", "Eclipse Public License 1.0", "GNU GPL General Public License v3.0","GNU GPL General Public License v2.0", "IBM Public License Version 1.0", "ISC License", "MIT License", "Mozilla Public License 2.0", "The Unlicence"]
+    },
+    {
+      type: "input",
+      message: "What are your contributions guidelines for this project?",
+      name: "contributing",
+    },
+    {
+      type: "input",
+      message: "How can a user ask questions about this application?",
+      name: "questions",
+    },
+    {
+      type: "input",
+      message: "What is your gitHub username?",
+      name: "github",
+    },
+    {
+      type: "input",
+      message: "What is your email address?",
+      name: "email",
+    },
+    {
+      type: "input",
+      message: "Please provide instructions on how to test this application",   
+      name: "tests",
+    },
+  ];
+  
+  //console.log(questions); 
+  
+  // function to write README file
+  function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data,  (err) =>
+      err ? console.error(err) : console.log("File saved to README.md")
+    );
+  }
+  
+  
+  // function to initialize program
+  function init() {
+    inquirer.prompt(questions)
+    .then((response) => {
+      writeToFile("Sample README.md", generateMarkdown(response) + "\n", (err) => {
+        console.error("There was an error processing the response. Please try again.");
+      });  
+    });
+  }
+  
+  // function call to initialize program
+  init();
+  
+  
